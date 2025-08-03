@@ -1,61 +1,184 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Aplikasi Blog - Projek Bootcamp Pengaturcaraan
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Logo Laravel">
 </p>
 
-## About Laravel
+## Tentang Projek Ini
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Ini adalah aplikasi blog yang dibina sebagai sebahagian daripada kurikulum bootcamp pengaturcaraan. Projek ini menunjukkan amalan pembangunan web moden menggunakan kerangka Laravel dan berfungsi sebagai platform pembelajaran untuk pelajar memahami:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Pembangunan web full-stack** dengan Laravel
+- **Reka bentuk pangkalan data** dan migrasi
+- **Pengesahan pengguna** dan kebenaran
+- **Operasi CRUD** untuk siaran blog dan komen
+- **Muat naik fail** dan pengurusan media
+- **Prinsip reka bentuk responsif** web
+- **Amalan pembangunan PHP** moden
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Ciri-ciri
 
-## Learning Laravel
+- Pendaftaran dan pengesahan pengguna
+- Cipta, baca, kemas kini, dan padam siaran blog
+- Sistem komen untuk penglibatan pengguna
+- Pengurusan profil pengguna
+- Dashboard admin untuk moderasi kandungan
+- Reka bentuk responsif untuk mudah alih dan desktop
+- Fungsi muat naik imej
+- Keupayaan carian dan penapisan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Bermula
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Prasyarat
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.2 atau lebih tinggi
+- Composer
+- Node.js dan npm
+- Pangkalan data MySQL atau PostgreSQL
+- Laravel Herd atau Valet (untuk pembangunan tempatan)
 
-## Laravel Sponsors
+### Pemasangan
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Klon repositori:
+   ```bash
+   git clone https://github.com/syahrinseth/aplikasi-blog.git
+   cd aplikasi-blog
+   ```
 
-### Premium Partners
+2. Pasang kebergantungan PHP:
+   ```bash
+   composer install
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+3. Pasang kebergantungan JavaScript:
+   ```bash
+   npm install
+   ```
 
-## Contributing
+4. Salin fail persekitaran:
+   ```bash
+   cp .env.example .env
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. Jana kunci aplikasi:
+   ```bash
+   php artisan key:generate
+   ```
 
-## Code of Conduct
+6. Konfigurasikan pangkalan data anda dalam fail `.env`:
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=aplikasi_blog
+   DB_USERNAME=nama_pengguna_anda
+   DB_PASSWORD=kata_laluan_anda
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+7. Jalankan migrasi pangkalan data:
+   ```bash
+   php artisan migrate
+   ```
 
-## Security Vulnerabilities
+8. Benih pangkalan data (pilihan):
+   ```bash
+   php artisan db:seed
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+9. Bina aset frontend:
+   ```bash
+   npm run dev
+   ```
 
-## License
+10. Mulakan pelayan pembangunan:
+    ```bash
+    php artisan serve
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Objektif Pembelajaran
+
+Pelajar yang mengerjakan projek ini akan mempelajari:
+
+- **Laravel Framework**: Memahami seni bina MVC, routing, middleware, dan Eloquent ORM
+- **Pengurusan Pangkalan Data**: Mencipta migrations, models, dan relationships
+- **Pengesahan**: Melaksanakan pendaftaran pengguna, log masuk, dan pengurusan sesi
+- **Integrasi Frontend**: Bekerja dengan Blade templates dan integrasi dengan framework JavaScript
+- **Kawalan Versi**: Menggunakan Git untuk pembangunan kolaboratif
+- **Deployment**: Menyediakan aplikasi untuk persekitaran produksi
+
+## Sumber Pembelajaran
+
+- [Dokumentasi Laravel](https://laravel.com/docs) - Dokumentasi rasmi Laravel
+- [Laravel Bootcamp](https://bootcamp.laravel.com) - Membina aplikasi Laravel pertama anda
+- [Laracasts](https://laracasts.com) - Tutorial video untuk Laravel dan PHP moden
+- [PHP: The Right Way](https://phptherightway.com/) - Amalan terbaik PHP moden
+
+## Struktur Silibus Kursus
+
+Projek ini direka untuk diselesaikan mengikut struktur kelas berikut:
+
+### **Kelas 1 - Pengenalan Laravel & Struktur Projek**
+- Pengenalan Laravel
+- Pemasangan Laravel 12
+- Konsep MVC (Model-View-Controller)
+- Struktur Direktori Laravel
+
+### **Kelas 2 - Asas Laravel MVC**
+- Routing (web.php)
+- Asas Blade View, Layout Blade, Komponen Blade
+- Controller, Binding Route-Controller
+
+### **Kelas 3 - Pembangunan Blog Post**
+- Database Migration
+- Database Seeding
+- Borang & Pengesahan (Validation), Mesej Tersuai
+
+### **Kelas 4 - Pembangunan Senarai Blog Post - Bahagian 1**
+- Asas "SQL Query"
+
+### **Kelas 5 - Pembangunan Senarai Blog Post - Bahagian 2**
+- Query Builder
+- Pagination
+- Asas Eloquent ORM
+
+### **Kelas 6 - Pembangunan Senarai Blog Post - Bahagian 3**
+- Relationships
+- Mutators / Casts
+- Query Filters
+
+### **Kelas 7 - Pembangunan Pengesahan & Keizinan Pengguna - Bahagian 1**
+- Laravel Auth Starter Kit
+- Laravel Gates dan Policy
+
+### **Kelas 8 - Pembangunan Pengesahan & Keizinan Pengguna - Bahagian 2**
+- Spatie Laravel Permission (Role & Permission)
+
+## Teknologi Yang Digunakan
+
+- **Backend**: Laravel 12, PHP 8.4
+- **Frontend**: Blade Templates, Tailwind CSS, Alpine.js
+- **Pangkalan Data**: MySQL
+- **Build Tools**: Vite
+- **Persekitaran Pembangunan**: Laravel Herd
+
+## Menyumbang
+
+Ini adalah projek pembelajaran untuk pelajar bootcamp pengaturcaraan. Sumbangan dan cadangan adalah dialu-alukan! Sila rasa bebas untuk:
+
+- Fork repositori
+- Cipta cawangan ciri
+- Buat perubahan anda
+- Hantar pull request
+
+## Sokongan
+
+Jika anda menghadapi sebarang isu atau mempunyai soalan tentang projek bootcamp ini, sila:
+
+1. Semak isu sedia ada di GitHub
+2. Cipta isu baru dengan maklumat terperinci
+3. Hubungi instruktur bootcamp anda
+4. Sertai saluran Discord/Slack bootcamp untuk sokongan komuniti
+
+## Lesen
+
+Projek ini adalah perisian sumber terbuka yang dilesenkan di bawah [lesen MIT](https://opensource.org/licenses/MIT).
