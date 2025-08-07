@@ -1,18 +1,13 @@
 @extends('layouts.app')
-@section('title', 'Laman Utama')
+@section('title', 'Senarai Blog Post')
 @section('content')
     <div class="mb-16 text-center">
-        <h1 class="text-3xl font-light tracking-wide text-gray-800 mb-4">Aplikasi Blog</h1>
+        <h1 class="text-3xl font-light tracking-wide text-gray-800 mb-4">Senarai Blog Post</h1>
         <p class="text-gray-500 text-sm">
             Platform Pembelajaran Pengaturcaraan</p>
     </div>
 
-    <div class="mb-12">
-        <h2 class="text-2xl font-light text-gray-800 mb-2">Dari Blog Kami</h2>
-        <p class="text-gray-600 text-sm">
-            Belajar cara membangunkan kemahiran pengaturcaraan dan teknologi dengan panduan kami.</p>
-    </div>
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-1 lg:grid-cols-1">
         @foreach($posts as $post)
             <article class="bg-gray-50 rounded-lg p-6 hover:shadow-sm transition-shadow duration-200">
                 <div class="flex items-center gap-x-3 text-xs mb-4">
