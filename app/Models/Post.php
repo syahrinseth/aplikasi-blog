@@ -13,5 +13,6 @@ class Post extends Model
         'author_info',
         'image',
         'category',
+        'slug',
     ];
 }

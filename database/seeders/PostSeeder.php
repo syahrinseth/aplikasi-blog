@@ -15,6 +15,7 @@ class PostSeeder extends Seeder
     {
         DB::table('posts')->insert([
             [
+                'slug' => 'asas-laravel-untuk-pemula',
                 'title' => 'Asas Laravel untuk Pemula',
                 'content' => 'Pengaturcaraan asas adalah langkah pertama dalam dunia teknologi. Dalam',
                 'author' => 'Muhammad Norsyahrin Seth',
@@ -25,6 +26,7 @@ class PostSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'slug' => 'membangun-aplikasi-web-dengan-laravel',
                 'title' => 'Membangun Aplikasi Web dengan Laravel',
                 'content' => 'Laravel adalah framework PHP yang popular untuk membangunkan aplikasi web.',
                 'created_at' => '2024-12-05',
@@ -36,6 +38,7 @@ class PostSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'slug' => 'pengaturcaraan-berorientasikan-objek-dengan-php',
                 'title' => 'Pengaturcaraan Berorientasikan Objek dengan PHP',
                 'content' => 'Pengaturcaraan berorientasikan objek (OOP) adalah paradigma pengaturcaraan yang penting.',
                 'created_at' => '2024-12-10',
@@ -47,6 +50,7 @@ class PostSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'slug' => 'pengaturcaraan-berorientasikan-objek-dengan-php',
                 'title' => 'Pengaturcaraan Berorientasikan Objek dengan PHP',
                 'content' => 'Pengaturcaraan berorientasikan objek (OOP) adalah paradigma pengaturcaraan yang penting.',
                 'created_at' => '2024-12-10',
