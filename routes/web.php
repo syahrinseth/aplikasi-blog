@@ -30,3 +30,8 @@ Route::get('posts/{slug}', [
     \App\Http\Controllers\PostController::class,
     'show'
 ])->name('posts.show');
+
+Route::delete('posts/{slug}', [
+    \App\Http\Controllers\PostController::class,
+    'destroy'
+])->name('posts.destroy');

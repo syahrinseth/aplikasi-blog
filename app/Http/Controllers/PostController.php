@@ -52,8 +52,11 @@ class PostController extends Controller
 
     }
 
-    public function destroy($id)
+    public function destroy($slug)
     {
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $post->delete();
 
+        return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');
     }
 }
