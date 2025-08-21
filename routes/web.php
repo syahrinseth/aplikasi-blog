@@ -46,6 +46,17 @@ Route::delete('posts/{slug}', [
     'destroy'
 ])->name('posts.destroy');
 
+// Comment routes
+Route::post('posts/{slug}/comments', [
+    \App\Http\Controllers\CommentController::class,
+    'store'
+])->name('comments.store');
+
+Route::delete('comments/{id}', [
+    \App\Http\Controllers\CommentController::class,
+    'destroy'
+])->name('comments.destroy');
+
 Route::get('test', function() {
     // Ambil semua data
     // $posts = \App\Models\Post::all();
