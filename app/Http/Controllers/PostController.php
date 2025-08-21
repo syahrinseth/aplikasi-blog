@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')
+        $posts = Post::with('user')->orderBy('created_at', 'desc')
             ->get();
         return view('posts.index', [
             'posts' => $posts
@@ -18,27 +19,37 @@ class PostController extends Controller
 
     public function show($slug)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        $post = Post::with('user')->where('slug', $slug)->firstOrFail();
         return view('posts.show', [
             'post' => $post
         ]);
     }
 
+    public function edit($slug)
+    {
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $users = User::all();
+        return view('posts.edit', [
+            'post' => $post,
+            'users' => $users
+        ]);
+    }
+
     public function create()
     {
-        return view('posts.create');
+        $users = User::all();
+        return view('posts.create', compact('users'));
     }
 
     public function store(Request $request)
     {
         // Input Validation.
         $validatedData = $request->validate([
-            'slug' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:posts,slug',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'author' => 'required|string|max:255',
-            'author_info' => 'required|string|max:255',
-            'image' => 'required|string|max:2048',
+            'user_id' => 'nullable|exists:users,id',
+            'image' => 'nullable|string|max:2048',
             'category' => 'required|string|max:255',
         ]);
         // Store data ke database.
@@ -47,9 +58,23 @@ class PostController extends Controller
         return back()->with('success', 'Post created successfully!');
     }
 
-    public function update()
+    public function update(Request $request, $slug)
     {
+        $post = Post::where('slug', $slug)->firstOrFail();
 
+        // Input Validation.
+        $validatedData = $request->validate([
+            'slug' => 'required|string|max:255|unique:posts,slug,' . $post->id,
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'user_id' => 'nullable|exists:users,id',
+            'image' => 'nullable|string|max:2048',
+            'category' => 'required|string|max:255',
+        ]);
+
+        $post->update($validatedData);
+
+        return back()->with('success', 'Post updated successfully!');
     }
 
     public function destroy($slug)

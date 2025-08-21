@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $post['title'])
+@section('title', $post->title)
 @section('content')
 <div class="max-w-4xl mx-auto px-6 py-12">
     <!-- Navigation Breadcrumb -->
@@ -12,7 +12,7 @@
                 All Posts
             </a>
             <span class="text-gray-300">/</span>
-            <span class="text-gray-700">{{ $post['title'] }}</span>
+            <span class="text-gray-700">{{ $post->title }}</span>
         </div>
     </nav>
 
@@ -20,27 +20,27 @@
     <header class="mb-12 text-center">
         <div class="mb-6">
             <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-                {{ $post['category'] }}
+                {{ $post->category }}
             </span>
         </div>
 
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-            {{ $post['title'] }}
+            {{ $post->title }}
         </h1>
 
         <div class="flex items-center justify-center space-x-6 text-gray-600">
             <div class="flex items-center space-x-3">
-                <img src="{{ $post['image'] }}" alt="{{ $post['author'] }}" class="w-12 h-12 rounded-full border-2 border-gray-200">
+                <img src="{{ $post->image }}" alt="{{ $post->user ? $post->user->name : 'Unknown Author' }}" class="w-12 h-12 rounded-full border-2 border-gray-200">
                 <div class="text-left">
-                    <p class="font-semibold text-gray-900">{{ $post['author'] }}</p>
-                    <p class="text-sm text-gray-500">{{ $post['author_info'] }}</p>
+                    <p class="font-semibold text-gray-900">{{ $post->user ? $post->user->name : 'Unknown Author' }}</p>
+                    <p class="text-sm text-gray-500">{{ $post->user ? $post->user->email : 'No email available' }}</p>
                 </div>
             </div>
             <div class="h-8 w-px bg-gray-300"></div>
             <div class="text-center">
-                <time datetime="{{ $post['created_at'] }}" class="text-sm text-gray-500">
+                <time datetime="{{ $post->created_at }}" class="text-sm text-gray-500">
                     Published on<br>
-                    <span class="font-medium text-gray-700">{{ \Carbon\Carbon::parse($post['created_at'])->format('F j, Y') }}</span>
+                    <span class="font-medium text-gray-700">{{ \Carbon\Carbon::parse($post->created_at)->format('F j, Y') }}</span>
                 </time>
             </div>
         </div>
@@ -50,7 +50,7 @@
     <article class="prose prose-lg max-w-none">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 md:p-12">
             <div class="text-gray-700 leading-relaxed text-lg whitespace-pre-line">
-                {{ $post['content'] }}
+                {{ $post->content }}
             </div>
         </div>
     </article>
@@ -63,7 +63,7 @@
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                     </svg>
-                    <span>Published {{ \Carbon\Carbon::parse($post['created_at'])->diffForHumans() }}</span>
+                    <span>Published {{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</span>
                 </div>
             </div>
 
@@ -77,6 +77,14 @@
                     Back to Posts
                 </a>
 
+                <a href="{{ route('posts.edit', ['slug' => $post->slug]) }}"
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                    Edit Post
+                </a>
+
                 <a href="{{ route('posts.create') }}"
                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,7 +93,7 @@
                     New Post
                 </a>
 
-                {{-- <form action="{{ route('posts.destroy', $post['slug']) }}" method="POST" class="inline-block"
+                <form action="{{ route('posts.destroy', $post['slug']) }}" method="POST" class="inline-block"
                       onsubmit="return confirm('Are you sure you want to delete this post? This action cannot be undone.')">
                     @csrf
                     @method('DELETE')
@@ -96,7 +104,7 @@
                         </svg>
                         Delete
                     </button>
-                </form> --}}
+                </form>
             </div>
         </div>
     </footer>

@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Create New Post')
+@section('title', 'Edit Post - ' . $post->title)
 @section('content')
 <div class="max-w-4xl mx-auto px-6 py-16">
     <!-- Header Section -->
     <div class="mb-12 text-center">
-        <h1 class="text-3xl font-light tracking-wide text-gray-800 mb-4">Create New Post</h1>
-        <p class="text-gray-500 text-sm">Share your thoughts and ideas with the world</p>
+        <h1 class="text-3xl font-light tracking-wide text-gray-800 mb-4">Edit Post</h1>
+        <p class="text-gray-500 text-sm">Update your blog post content and information</p>
     </div>
 
     <!-- Success Message -->
@@ -22,8 +22,9 @@
 
     <!-- Form Container -->
     <div class="bg-white border border-gray-200 rounded-xl shadow-sm">
-        <form action="{{ route('posts.store') }}" method="POST" class="p-8 space-y-8">
+        <form action="{{ route('posts.update', $post->slug) }}" method="POST" class="p-8 space-y-8">
             @csrf
+            @method('PUT')
 
             <!-- Post Information Section -->
             <div class="space-y-6">
@@ -42,7 +43,7 @@
                             name="title"
                             id="title"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm @error('title') border-red-300 @enderror"
-                            value="{{ old('title') }}"
+                            value="{{ old('title', $post->title) }}"
                             placeholder="Enter an engaging title for your post"
                         >
                         @error('title')
@@ -64,7 +65,7 @@
                             name="slug"
                             id="slug"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm @error('slug') border-red-300 @enderror"
-                            value="{{ old('slug') }}"
+                            value="{{ old('slug', $post->slug) }}"
                             placeholder="url-friendly-slug"
                         >
                         @error('slug')
@@ -86,7 +87,7 @@
                             name="category"
                             id="category"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm @error('category') border-red-300 @enderror"
-                            value="{{ old('category') }}"
+                            value="{{ old('category', $post->category) }}"
                             placeholder="e.g., Programming, Technology"
                         >
                         @error('category')
@@ -110,7 +111,7 @@
                         rows="8"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm @error('content') border-red-300 @enderror"
                         placeholder="Write your post content here..."
-                    >{{ old('content') }}</textarea>
+                    >{{ old('content', $post->content) }}</textarea>
                     @error('content')
                         <p class="text-red-500 text-sm mt-2 flex items-center">
                             <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -141,7 +142,7 @@
                         >
                             <option value="">Select an author (optional)</option>
                             @foreach($users as $user)
-                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                <option value="{{ $user->id }}" {{ old('user_id', $post->user_id) == $user->id ? 'selected' : '' }}>
                                     {{ $user->name }} ({{ $user->email }})
                                 </option>
                             @endforeach
@@ -166,7 +167,7 @@
                         name="image"
                         id="image"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm @error('image') border-red-300 @enderror"
-                        value="{{ old('image') }}"
+                        value="{{ old('image', $post->image) }}"
                         placeholder="https://example.com/author-photo.jpg"
                     >
                     <p class="text-xs text-gray-500 mt-1">Provide a URL to the author's profile picture</p>
@@ -184,7 +185,7 @@
             <!-- Action Buttons -->
             <div class="flex items-center justify-between pt-6 border-t border-gray-100">
                 <a
-                    href="{{ route('posts.index') }}"
+                    href="{{ route('posts.show', $post->slug) }}"
                     class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
                 >
                     Cancel
@@ -193,7 +194,7 @@
                     type="submit"
                     class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors text-sm font-medium"
                 >
-                    Create Post
+                    Update Post
                 </button>
             </div>
         </form>
@@ -201,16 +202,21 @@
 </div>
 
 <script>
-// Auto-generate slug from title
+// Auto-generate slug from title only if slug is empty
 document.getElementById('title').addEventListener('input', function() {
     const title = this.value;
-    const slug = title
-        .toLowerCase()
-        .replace(/[^a-z0-9 -]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim('-');
-    document.getElementById('slug').value = slug;
+    const slugField = document.getElementById('slug');
+
+    // Only auto-generate if slug field is empty
+    if (slugField.value.trim() === '') {
+        const slug = title
+            .toLowerCase()
+            .replace(/[^a-z0-9 -]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .trim('-');
+        slugField.value = slug;
+    }
 });
 </script>
 @endsection

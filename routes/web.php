@@ -31,7 +31,40 @@ Route::get('posts/{slug}', [
     'show'
 ])->name('posts.show');
 
+Route::get('posts/{slug}/edit', [
+    \App\Http\Controllers\PostController::class,
+    'edit'
+])->name('posts.edit');
+
+Route::put('posts/{slug}', [
+    \App\Http\Controllers\PostController::class,
+    'update'
+])->name('posts.update');
+
 Route::delete('posts/{slug}', [
     \App\Http\Controllers\PostController::class,
     'destroy'
 ])->name('posts.destroy');
+
+Route::get('test', function() {
+    // Ambil semua data
+    // $posts = \App\Models\Post::all();
+    // dd($posts);
+
+    // Ambil data ikut syarat
+    // $posts = \App\Models\Post::where('category', 'Pengaturcaraan')->get();
+    // dd($posts);
+
+    // Susun Data (Order)
+    // $posts = \App\Models\Post::orderBy('created_at', 'desc')->get();
+    // dd($posts);
+
+    // Limitkan Data
+    // $posts = \App\Models\Post::limit(10)->get();
+    // dd($posts);
+
+    // Pilih Column Tertentu
+    // $posts = \App\Models\Post::select('title', 'created_at')->get();
+
+    // dd($posts);
+});

@@ -25,22 +25,22 @@
     @foreach($posts as $post)
         <article class="bg-gray-50 rounded-lg p-6 hover:shadow-sm transition-shadow duration-200">
             <div class="flex items-center gap-x-3 text-xs mb-4">
-            <time datetime="2024-12-15" class="text-gray-400">{{ \Carbon\Carbon::parse($post['created_at'])->format('j M Y') }}</time>
-            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs">{{ $post['category'] }}</span>
+            <time datetime="2024-12-15" class="text-gray-400">{{ \Carbon\Carbon::parse($post->created_at)->format('j M Y') }}</time>
+            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs">{{ $post->category }}</span>
             </div>
             <div class="mb-6">
             <h3 class="text-lg font-medium text-gray-900 mb-3 leading-snug">
-                <a href="{{ route('posts.show', ['slug' => $post['slug']]) }}" class="hover:text-gray-600 transition-colors">
-                    {{ $post['title'] }}
+                <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="hover:text-gray-600 transition-colors">
+                    {{ $post->title }}
                 </a>
             </h3>
-            <p class="text-sm text-gray-600 leading-relaxed">{{ $post['content'] }}</p>
+            <p class="text-sm text-gray-600 leading-relaxed">{{ $post->content }}</p>
             </div>
             <div class="flex items-center gap-x-3 pt-4 border-t border-gray-100">
-            <img src="{{ $post['image'] }}" alt="" class="w-8 h-8 rounded-full" />
+            <img src="{{ $post->image }}" alt="{{ $post->user ? $post->user->name : 'Unknown Author' }}" class="w-8 h-8 rounded-full" />
             <div class="text-xs">
-                <p class="font-medium text-gray-900">{{ $post['author'] }}</p>
-                <p class="text-gray-500">{{ $post['author_info'] }}</p>
+                <p class="font-medium text-gray-900">{{ $post->user ? $post->user->name : 'Unknown Author' }}</p>
+                <p class="text-gray-500">{{ $post->user ? $post->user->email : 'No email available' }}</p>
             </div>
             </div>
         </article>
