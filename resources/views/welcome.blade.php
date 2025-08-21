@@ -13,70 +13,66 @@
     <p class="text-gray-600 text-sm">
         Belajar cara membangunkan kemahiran pengaturcaraan dan teknologi dengan panduan kami.</p>
     </div>
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-    <article class="bg-gray-50 rounded-lg p-6 hover:shadow-sm transition-shadow duration-200">
-        <div class="flex items-center gap-x-3 text-xs mb-4">
-        <time datetime="2024-12-15" class="text-gray-400">15 Dis 2024</time>
-        <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs">Pembangunan Web</span>
+
+    @if($posts->count() > 0)
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            @foreach($posts as $post)
+                <article class="bg-gray-50 rounded-lg p-6 hover:shadow-sm transition-shadow duration-200">
+                    <div class="flex items-center gap-x-3 text-xs mb-4">
+                        <time datetime="{{ $post->created_at->format('Y-m-d') }}" class="text-gray-400">
+                            {{ $post->created_at->format('j M Y') }}
+                        </time>
+                        <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs">{{ $post->category }}</span>
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-900 mb-3 leading-snug">
+                            <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-gray-600 transition-colors">
+                                {{ $post->title }}
+                            </a>
+                        </h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            {{ Str::limit($post->content, 120) }}
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-x-3 pt-4 border-t border-gray-100">
+                        <img src="{{ $post->image ?? 'https://ui-avatars.com/api/?name=' . urlencode($post->user->name ?? 'Unknown') . '&background=3B82F6&color=ffffff' }}"
+                             alt="{{ $post->user->name ?? 'Unknown Author' }}"
+                             class="w-8 h-8 rounded-full" />
+                        <div class="text-xs">
+                            <p class="font-medium text-gray-900">{{ $post->user->name ?? 'Unknown Author' }}</p>
+                            <p class="text-gray-500">{{ $post->user->email ?? 'No email available' }}</p>
+                        </div>
+                    </div>
+                </article>
+            @endforeach
         </div>
-        <div class="mb-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-3 leading-snug">
-            <a href="#" class="hover:text-gray-600 transition-colors">
-            Asas Laravel untuk Pemula
+
+        <div class="mt-12 text-center">
+            <a href="{{ route('posts.index') }}"
+               class="inline-flex items-center px-6 py-3 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                </svg>
+                Lihat Semua Artikel
             </a>
-        </h3>
-        <p class="text-sm text-gray-600 leading-relaxed">Pelajari asas-asas Laravel dari awal hingga mahir. Panduan lengkap untuk memulakan projek pertama anda dengan kerangka kerja PHP yang popular ini. Termasuk tips dan trik untuk pembangunan yang berkesan.</p>
         </div>
-        <div class="flex items-center gap-x-3 pt-4 border-t border-gray-100">
-        <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="w-8 h-8 rounded-full" />
-        <div class="text-xs">
-            <p class="font-medium text-gray-900">Ahmad Rahman</p>
-            <p class="text-gray-500">Pengajar Laravel</p>
+    @else
+        <div class="text-center py-16">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Tiada artikel tersedia</h3>
+            <p class="mt-1 text-sm text-gray-500">Mulakan dengan mencipta artikel pertama anda!</p>
+            <div class="mt-6">
+                <a href="{{ route('posts.create') }}"
+                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Cipta Artikel Baru
+                </a>
+            </div>
         </div>
-        </div>
-    </article>
-    <article class="bg-gray-50 rounded-lg p-6 hover:shadow-sm transition-shadow duration-200">
-        <div class="flex items-center gap-x-3 text-xs mb-4">
-        <time datetime="2024-12-10" class="text-gray-400">10 Dis 2024</time>
-        <span class="px-2 py-1 bg-green-50 text-green-600 rounded text-xs">Pangkalan Data</span>
-        </div>
-        <div class="mb-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-3 leading-snug">
-            <a href="#" class="hover:text-gray-600 transition-colors">
-            Menguasai Eloquent ORM dalam Laravel
-            </a>
-        </h3>
-        <p class="text-sm text-gray-600 leading-relaxed">Panduan komprehensif untuk menggunakan Eloquent ORM dengan berkesan. Pelajari relationship, query builder, dan tips optimisasi untuk aplikasi yang lebih pantas.</p>
-        </div>
-        <div class="flex items-center gap-x-3 pt-4 border-t border-gray-100">
-        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="w-8 h-8 rounded-full" />
-        <div class="text-xs">
-            <p class="font-medium text-gray-900">Siti Nurhaliza</p>
-            <p class="text-gray-500">Pembangun Backend</p>
-        </div>
-        </div>
-    </article>
-    <article class="bg-gray-50 rounded-lg p-6 hover:shadow-sm transition-shadow duration-200">
-        <div class="flex items-center gap-x-3 text-xs mb-4">
-        <time datetime="2024-12-05" class="text-gray-400">5 Dis 2024</time>
-        <span class="px-2 py-1 bg-purple-50 text-purple-600 rounded text-xs">Frontend</span>
-        </div>
-        <div class="mb-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-3 leading-snug">
-            <a href="#" class="hover:text-gray-600 transition-colors">
-            Reka Bentuk Responsif dengan Tailwind CSS
-            </a>
-        </h3>
-        <p class="text-sm text-gray-600 leading-relaxed">Pelajari cara mencipta antara muka pengguna yang menarik dan responsif menggunakan Tailwind CSS. Tips dan teknik terkini untuk reka bentuk web moden yang mesra mudah alih.</p>
-        </div>
-        <div class="flex items-center gap-x-3 pt-4 border-t border-gray-100">
-        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="w-8 h-8 rounded-full" />
-        <div class="text-xs">
-            <p class="font-medium text-gray-900">Farid Azman</p>
-            <p class="text-gray-500">Pereka UI/UX</p>
-        </div>
-        </div>
-    </article>
-    </div>
+    @endif
 </div>
 @endsection

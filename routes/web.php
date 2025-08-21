@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', [
+    \App\Http\Controllers\HomeController::class,
+    'index'
+])->name('welcome');
 
 Route::get('/tentang-blog', [
     \App\Http\Controllers\AboutController::class,
