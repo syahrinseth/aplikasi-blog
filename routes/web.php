@@ -58,6 +58,11 @@ Route::delete('comments/{id}', [
     'destroy'
 ])->name('comments.destroy');
 
+Route::get('admin/dashboard', [
+    \App\Http\Controllers\DashboardController::class,
+    'index'
+])->name('admin.dashboard.index');
+
 Route::get('test', function() {
     // Ambil semua data
     // $posts = \App\Models\Post::all();

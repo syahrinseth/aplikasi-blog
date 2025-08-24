@@ -13,16 +13,16 @@ class CommentController extends Controller
     {
         $post = Post::where('slug', $slug)->firstOrFail();
 
-        $request->validate([
+        $validated = $request->validate([
             'content' => 'required|string|max:1000',
             'author_name' => 'required|string|max:255',
             'author_email' => 'required|email|max:255',
         ]);
 
         Comment::create([
-            'content' => $request->content,
-            'author_name' => $request->author_name,
-            'author_email' => $request->author_email,
+            'content' => $validated['content'],
+            'author_name' => $validated['author_name'],
+            'author_email' => $validated['author_email'],
             'post_id' => $post->id,
             'user_id' => Auth::id(), // Will be null if user is not authenticated
         ]);

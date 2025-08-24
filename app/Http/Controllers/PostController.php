@@ -8,12 +8,26 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('user')->orderBy('created_at', 'desc')
-            ->get();
+        $query = Post::with('user')->orderBy('created_at', 'desc');
+
+        // Handle search function
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = $request->search;
+            // title, content, category, user
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('title', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('content', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('category', 'like', '%' . $searchTerm . '%')
+                    ->orWhereHas('user', function($q) use ($searchTerm) {
+                        $q->where('name', 'like', '%' . $searchTerm . '%');
+                    });
+            });
+        }
+
         return view('posts.index', [
-            'posts' => $posts
+            'posts' => $query->get()
         ]);
     }
 
