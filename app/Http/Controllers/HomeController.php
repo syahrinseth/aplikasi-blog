@@ -15,6 +15,8 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
 
-        return view('welcome', compact('posts'));
+        return view('welcome', [
+            'posts' => $posts,
+        ]);
     }
 }

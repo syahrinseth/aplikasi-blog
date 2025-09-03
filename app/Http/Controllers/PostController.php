@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -31,17 +33,19 @@ class PostController extends Controller
         ]);
     }
 
-    public function show($slug)
+    public function show(Post $post)
     {
-        $post = Post::with(['user', 'comments'])->where('slug', $slug)->firstOrFail();
+        // Load the relationships that we need
+        $post->load(['user', 'comments']);
+
         return view('posts.show', [
             'post' => $post
         ]);
     }
 
-    public function edit($slug)
+    public function edit(Post $post)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        // Authorization is handled by middleware
         $users = User::all();
         return view('posts.edit', [
             'post' => $post,
@@ -51,12 +55,14 @@ class PostController extends Controller
 
     public function create()
     {
+        // Authorization is handled by middleware
         $users = User::all();
         return view('posts.create', compact('users'));
     }
 
     public function store(Request $request)
     {
+        // Authorization is handled by middleware
         // Input Validation.
         $validatedData = $request->validate([
             'slug' => 'required|string|max:255|unique:posts,slug',
@@ -72,9 +78,9 @@ class PostController extends Controller
         return back()->with('success', 'Post created successfully!');
     }
 
-    public function update(Request $request, $slug)
+    public function update(Request $request, Post $post)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        // Authorization is handled by middleware
 
         // Input Validation.
         $validatedData = $request->validate([
@@ -86,14 +92,19 @@ class PostController extends Controller
             'category' => 'required|string|max:255',
         ]);
 
+        if (Gate::check('is-author')) {
+            $validatedData['user_id'] = Auth::user()->id;
+        }
+
         $post->update($validatedData);
 
-        return back()->with('success', 'Post updated successfully!');
+        return redirect()->route('posts.edit', $post)
+            ->with('success', 'Post updated successfully!');
     }
 
-    public function destroy($slug)
+    public function destroy(Post $post)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        // Authorization is handled by middleware
         $post->delete();
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');

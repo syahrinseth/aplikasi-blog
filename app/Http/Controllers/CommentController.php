@@ -9,10 +9,8 @@ use App\Models\Post;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, $slug)
+    public function store(Request $request, Post $post)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
-
         $validated = $request->validate([
             'content' => 'required|string|max:1000',
             'author_name' => 'required|string|max:255',
@@ -27,7 +25,7 @@ class CommentController extends Controller
             'user_id' => Auth::id(), // Will be null if user is not authenticated
         ]);
 
-        return redirect()->route('posts.show', $slug)
+        return redirect()->route('posts.show', $post)
             ->with('success', 'Comment added successfully!');
     }
 

@@ -20,29 +20,29 @@ Route::get('posts', [
 Route::get('posts/create', [
     \App\Http\Controllers\PostController::class,
     'create'
-])->name('posts.create');
+])->name('posts.create')->middleware('can:create,App\Models\Post');
 
 Route::post('posts/store', [
     \App\Http\Controllers\PostController::class,
     'store'
-])->name('posts.store');
+])->name('posts.store')->middleware('can:create,App\Models\Post');
 
-Route::get('posts/{slug}', [
+Route::get('posts/{post:slug}', [
     \App\Http\Controllers\PostController::class,
     'show'
 ])->name('posts.show');
 
-Route::get('posts/{slug}/edit', [
+Route::get('posts/{post:slug}/edit', [
     \App\Http\Controllers\PostController::class,
     'edit'
-])->name('posts.edit');
+])->name('posts.edit')->middleware('can:update,post');
 
-Route::put('posts/{slug}', [
+Route::put('posts/{post:slug}', [
     \App\Http\Controllers\PostController::class,
     'update'
-])->name('posts.update');
+])->name('posts.update')->middleware('can:update,post');
 
-Route::delete('posts/{slug}', [
+Route::delete('posts/{post:slug}', [
     \App\Http\Controllers\PostController::class,
     'destroy'
 ])->name('posts.destroy');
@@ -58,10 +58,12 @@ Route::delete('comments/{id}', [
     'destroy'
 ])->name('comments.destroy');
 
-Route::get('admin/dashboard', [
-    \App\Http\Controllers\DashboardController::class,
-    'index'
-])->name('admin.dashboard.index');
+Route::middleware('auth')->group(function() {
+    Route::get('admin/dashboard', [
+        \App\Http\Controllers\DashboardController::class,
+        'index'
+    ])->name('admin.dashboard.index');
+});
 
 Route::get('test', function() {
     // Ambil semua data
@@ -85,3 +87,28 @@ Route::get('test', function() {
 
     // dd($posts);
 });
+
+Route::get('login', [
+    \App\Http\Controllers\AuthController::class,
+    'showLogin'
+])->name('login');
+
+Route::post('login', [
+    \App\Http\Controllers\AuthController::class,
+    'login'
+])->name('login');
+
+Route::get('register', [
+    \App\Http\Controllers\AuthController::class,
+    'showRegister'
+])->name('register');
+
+Route::post('register', [
+    \App\Http\Controllers\AuthController::class,
+    'register'
+])->name('register.post');
+
+Route::post('logout', [
+    \App\Http\Controllers\AuthController::class,
+    'logout'
+])->name('logout');

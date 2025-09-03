@@ -139,6 +139,7 @@
                             name="user_id"
                             id="user_id"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm @error('user_id') border-red-300 @enderror"
+                            @can('is-author') disabled @endcan
                         >
                             <option value="">Select an author (optional)</option>
                             @foreach($users as $user)
@@ -184,12 +185,30 @@
 
             <!-- Action Buttons -->
             <div class="flex items-center justify-between pt-6 border-t border-gray-100">
-                <a
-                    href="{{ route('posts.show', $post->slug) }}"
-                    class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
-                >
-                    Cancel
-                </a>
+                <div class="flex items-center space-x-3">
+                    <a
+                        href="{{ route('posts.show', $post) }}"
+                        class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+                    >
+                        Cancel
+                    </a>
+
+                    @can('delete', $post)
+                    <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline-block"
+                          onsubmit="return confirm('Are you sure you want to delete this post? This action cannot be undone.')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="px-6 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 transition-colors">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                            Delete Post
+                        </button>
+                    </form>
+                    @endcan
+                </div>
+
                 <button
                     type="submit"
                     class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors text-sm font-medium"
@@ -205,18 +224,13 @@
 // Auto-generate slug from title only if slug is empty
 document.getElementById('title').addEventListener('input', function() {
     const title = this.value;
-    const slugField = document.getElementById('slug');
-
-    // Only auto-generate if slug field is empty
-    if (slugField.value.trim() === '') {
-        const slug = title
-            .toLowerCase()
-            .replace(/[^a-z0-9 -]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-')
-            .trim('-');
-        slugField.value = slug;
-    }
+    const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9 -]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim('-');
+    document.getElementById('slug').value = slug;
 });
 </script>
 @endsection
