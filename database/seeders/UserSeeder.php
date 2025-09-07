@@ -48,5 +48,20 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
+
+        // Assign roles to users
+        if (count($users) >= 4) {
+            // Assign admin role to first user
+            $users[0]->assignRole('admin');
+
+            // Assign editor role to second user
+            $users[1]->assignRole('editor');
+
+            // Assign user role to third user
+            $users[2]->assignRole('user');
+
+            // Assign multiple roles to fourth user (editor and user)
+            $users[3]->assignRole(['editor', 'user']);
+        }
     }
 }

@@ -32,7 +32,7 @@ class PostPolicy
     public function create(User $user): bool
     {
         // Only authenticated users with admin or author role can create posts
-        return in_array($user->role, ['admin', 'author']);
+        return $user->hasAnyRole(['admin', 'author']);
     }
 
     /**
@@ -41,12 +41,12 @@ class PostPolicy
     public function update(User $user, Post $post): bool
     {
         // Admin can update any post
-        if ($user->role === 'admin') {
+        if ($user->hasRole('admin')) {
             return true;
         }
 
         // Authors can only update their own posts
-        return $user->role === 'author' && $post->user_id === $user->id;
+        return $user->hasRole('author') && $post->user_id === $user->id;
     }
 
     /**
@@ -55,12 +55,12 @@ class PostPolicy
     public function delete(User $user, Post $post): bool
     {
         // Admin can delete any post
-        if ($user->role === 'admin') {
+        if ($user->hasRole('admin')) {
             return true;
         }
 
         // Authors can only delete their own posts
-        return $user->role === 'author' && $post->user_id === $user->id;
+        return $user->hasRole('author') && $post->user_id === $user->id;
     }
 
     /**
@@ -69,7 +69,7 @@ class PostPolicy
     public function restore(User $user, Post $post): bool
     {
         // Only admins can restore posts
-        return $user->role === 'admin';
+        return $user->hasRole('admin');
     }
 
     /**
@@ -78,7 +78,7 @@ class PostPolicy
     public function forceDelete(User $user, Post $post): bool
     {
         // Only admins can permanently delete posts
-        return $user->role === 'admin';
+        return $user->hasRole('admin');
     }
 
     /**
@@ -87,7 +87,7 @@ class PostPolicy
     public function manage(User $user): bool
     {
         // Only admins can access post management features
-        return $user->role === 'admin';
+        return $user->hasRole('admin');
     }
 
     /**
@@ -96,11 +96,11 @@ class PostPolicy
     public function publish(User $user, Post $post): bool
     {
         // Admin can publish/unpublish any post
-        if ($user->role === 'admin') {
+        if ($user->hasRole('admin')) {
             return true;
         }
 
         // Authors can publish/unpublish their own posts
-        return $user->role === 'author' && $post->user_id === $user->id;
+        return $user->hasRole('author') && $post->user_id === $user->id;
     }
 }

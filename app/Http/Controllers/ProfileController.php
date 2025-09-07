@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 
 class ProfileController extends Controller
 {
@@ -15,7 +16,8 @@ class ProfileController extends Controller
     public function show()
     {
         $user = Auth::user();
-        return view('profile.show', compact('user'));
+        $roles = Role::all();
+        return view('profile.show', compact('user', 'roles'));
     }
 
     /**
@@ -28,6 +30,8 @@ class ProfileController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['string', 'exists:roles,name'],
             'current_password' => ['nullable', 'string'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);
@@ -59,6 +63,12 @@ class ProfileController extends Controller
         }
 
         $user->update($userData);
+
+        // Update user roles using Spatie Laravel Permission
+        if ($request->has('roles')) {
+            // Sync roles (remove all existing roles and assign the new ones)
+            $user->syncRoles($request->roles ?? []);
+        }
 
         return back()->with('success', 'Profile updated successfully!');
     }
